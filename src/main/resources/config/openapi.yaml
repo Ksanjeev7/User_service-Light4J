@@ -1,0 +1,137 @@
+---
+openapi: "3.0.0"
+info: null
+title: "User Service API"
+description: "REST API for user management with MongoDB"
+version: "1.0.0"
+servers:
+- url: "http://localhost:8080"
+  description: "Local Development Server"
+paths: null
+/load:
+  get:
+    summary: "Load 10 users from JSON Placeholder into the database"
+    operationId: "loadUsers"
+    responses:
+      "200":
+        description: "Users loaded successfully"
+      "500":
+        description: "Internal Server Error"
+/users:
+  put:
+    summary: "Insert a new user"
+    operationId: "insertUser"
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/User"
+    responses:
+      "201":
+        description: "User created successfully"
+      "400":
+        description: "Bad request (User ID already exists)"
+  delete:
+    summary: "Delete all users"
+    operationId: "deleteAllUsers"
+    responses:
+      "200":
+        description: "All users deleted successfully"
+/users/{userId}:
+  get:
+    summary: "Retrieve a user by ID"
+    operationId: "getUserById"
+    parameters:
+    - name: "userId"
+      in: "path"
+      required: true
+      schema:
+        type: "string"
+    responses:
+      "200":
+        description: "User found"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      "404":
+        description: "User not found"
+  post:
+    summary: "Update an existing user"
+    operationId: "updateUser"
+    parameters:
+    - name: "userId"
+      in: "path"
+      required: true
+      schema:
+        type: "string"
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/User"
+    responses:
+      "200":
+        description: "User updated successfully"
+      "404":
+        description: "User not found"
+  delete:
+    summary: "Delete a user by ID"
+    operationId: "deleteUser"
+    parameters:
+    - name: "userId"
+      in: "path"
+      required: true
+      schema:
+        type: "string"
+    responses:
+      "200":
+        description: "User deleted successfully"
+      "404":
+        description: "User not found"
+components: null
+schemas:
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+      username:
+        type: "string"
+      email:
+        type: "string"
+      address:
+        type: "object"
+        properties:
+          street:
+            type: "string"
+      suite:
+        type: "string"
+        city:
+          type: "string"
+        zipcode:
+          type: "string"
+    geo:
+      type: "object"
+      properties:
+        lat:
+          type: "string"
+        lng:
+          type: "string"
+        phone: null
+        type: "string"
+      website:
+        type: "string"
+      company:
+        type: "object"
+        properties: null
+        name:
+          type: "string"
+      catchPhrase:
+        type: "string"
+      bs:
+        type: "string"
